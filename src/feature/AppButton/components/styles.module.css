@@ -1,0 +1,6 @@
+.wrapper {
+  background-color: var(--mantine-color-gray-1);
+}
+.wrapper:hover {
+  background-color: var(--mantine-color-gray-2);
+}

@@ -9,16 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^7.7.0",
+    "@mantine/form": "^7.7.0",
+    "@mantine/hooks": "^7.7.0",
+    "@mantine/modals": "^7.7.0",
+    "@mantine/notifications": "^7.7.0",
+    "boring-avatars": "^1.10.1",
+    "firebase": "^10.9.0",
+    "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.4"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/firebase": "^3.2.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.0.4"
+    "eslint-config-next": "14.0.4",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.13.0",
+    "postcss-simple-vars": "^7.0.1",
+    "typescript": "^5"
   }
 }
