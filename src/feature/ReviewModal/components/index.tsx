@@ -13,6 +13,7 @@ import Link from "next/link";
 import { createContext, PropsWithChildren, useContext, useMemo } from "react";
 
 import { APP_NAME } from "@/constants/meta";
+import { useScreen } from "@/hooks/useScreen";
 
 interface ReviewModalContextInterface {
   opened: boolean;
@@ -28,6 +29,7 @@ export const ReviewModalProvider: React.FC<PropsWithChildren<{}>> = ({
   children,
 }) => {
   const [opened, { open, close }] = useDisclosure();
+  const { isMinimumScreen } = useScreen();
   const theme = useMantineTheme();
   const value = useMemo(() => ({ opened, open, close }), [opened, open, close]);
   // ツイッター共有用URLの取得
@@ -86,15 +88,20 @@ export const ReviewModalProvider: React.FC<PropsWithChildren<{}>> = ({
         <Title size="h4" order={2} ta="center" py={40}>
           {APP_NAME}はいかがでしたか？
         </Title>
-        <Box mx="lg" pos="relative" pb={72}>
+        <Box mx="lg" pos="relative" pb={isMinimumScreen ? 64 : 72}>
           <Box
             w="100%"
             p="lg"
-            pb={110}
+            pb={isMinimumScreen ? 40 : 110}
             bg="#FFF9F0"
             style={{ borderRadius: 200 }}
           >
-            <Text c="#8B7D57" ta="center" fw="normal">
+            <Text
+              c="#8B7D57"
+              ta="center"
+              fw="normal"
+              fz={isMinimumScreen ? "sm" : "md"}
+            >
               もしよければ、拡散にご協力ください！
             </Text>
             <Flex mt={20} justify="center" gap={40}>
