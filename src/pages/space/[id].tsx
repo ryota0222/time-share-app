@@ -10,13 +10,17 @@ import {
   UnstyledButton,
   Center,
   Image,
+  CloseButton,
+  Modal,
+  Button,
+  noop,
 } from "@mantine/core";
 import Head from "next/head";
 import BoringAvatar from "boring-avatars";
 
 import { APP_NAME } from "@/constants/meta";
 import { Fragment, useCallback, useEffect, useRef } from "react";
-import { useLocalStorage } from "@mantine/hooks";
+import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useStore } from "@/lib/store";
 import { AddIcon } from "@/core/icons";
@@ -28,6 +32,7 @@ import { useReviewModalContext } from "@/feature/ReviewModal/components";
 import { useScreen } from "@/hooks/useScreen";
 import { useCopyToClipboard } from "react-use";
 import { showSuccessNotification } from "@/feature/Notification";
+import { AppButton } from "@/feature/AppButton";
 
 const MAX_NAME_LENGTH = 20;
 
@@ -39,6 +44,7 @@ export default function SpaceDetail() {
     defaultValue: "",
   });
   const [state, copyToClipboard] = useCopyToClipboard();
+  const [opened, { open, close }] = useDisclosure();
   const theme = useMantineTheme();
   const space = useStore((state) => state.space);
   const reviewModalContext = useReviewModalContext();
@@ -168,7 +174,7 @@ export default function SpaceDetail() {
             label="スペースを離れる"
             events={{ hover: true, focus: true, touch: true }}
           >
-            <UnstyledButton>
+            <UnstyledButton onClick={open}>
               <Center
                 w={72}
                 h={72}
@@ -220,6 +226,53 @@ export default function SpaceDetail() {
           </Tooltip>
         </Flex>
       </Stack>
+      <Modal
+        opened={opened}
+        onClose={close}
+        radius="lg"
+        centered
+        withCloseButton={false}
+        size="min(640px, 90vw)"
+        overlayProps={{ bg: "#00000040" }}
+        styles={{
+          body: {
+            padding: 0,
+            position: "relative",
+          },
+        }}
+      >
+        <Box pos="absolute" right={16} top={16}>
+          <CloseButton onClick={close} />
+        </Box>
+        <Title size="h4" order={2} ta="center" py={40}>
+          スペースを離れてよろしいですか？
+        </Title>
+        <Box mx="lg">
+          <Text c="gray.6" ta="center" fz="md">
+            スペースを離れると、スペースは消去され、参加中のユーザーもスペースから外れます。
+          </Text>
+          <Stack
+            w="min(320px, 80%)"
+            mx="auto"
+            my={isMinimumScreen ? 40 : 64}
+            gap={isMinimumScreen ? "md" : "xl"}
+          >
+            <AppButton
+              onClick={noop}
+              style={{
+                background: theme.colors.red[6],
+                color: "white",
+                width: "100%",
+              }}
+            >
+              はい、スペースを離れます
+            </AppButton>
+            <AppButton onClick={close} style={{ width: "100%" }}>
+              戻る
+            </AppButton>
+          </Stack>
+        </Box>
+      </Modal>
     </>
   );
 }
