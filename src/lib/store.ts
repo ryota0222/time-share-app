@@ -1,13 +1,16 @@
 import { create } from "zustand";
 
-interface Event {
+export interface Event {
   type: "start" | "stop" | "pause" | "resume" | "reset";
-  timestamp: string;
+  createdAt: string;
+  user: string;
 }
 
-interface Space {
+export interface Space {
   id: string;
   name: string;
+  createdAt: string;
+  deletedAt: string | null;
   members: string[];
   owner: string;
   events: Event[];
@@ -15,28 +18,25 @@ interface Space {
 
 type State = {
   space: Space | null;
+  username: string;
 };
 
 type Action = {
   setSpace: (obj: Space) => void;
+  setUsername: (name: string) => void;
 };
 
 export const useStore = create<State & Action>()((set) => ({
-  space: {
-    id: "1lkspd021",
-    name: "taroのスペース",
-    members: ["taro", "jiro"],
-    owner: "taro",
-    events: [
-      {
-        type: "start",
-        timestamp: "2024-04-01T12:00:00Z",
-      },
-    ],
-  },
+  space: null,
   setSpace: (obj) =>
     set((state) => ({
       ...state,
       space: obj,
+    })),
+  username: "",
+  setUsername: (name) =>
+    set((state) => ({
+      ...state,
+      username: name,
     })),
 }));

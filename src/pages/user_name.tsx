@@ -1,26 +1,28 @@
-import { Box, Stack, Text, TextInput } from "@mantine/core";
-import Head from "next/head";
+import { Stack, Text, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import Avatar from "boring-avatars";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 import { APP_NAME } from "@/constants/meta";
-import { useForm } from "@mantine/form";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
-import { useCallback, useRef } from "react";
-import { useLocalStorage } from "@mantine/hooks";
-import { useRouter } from "next/router";
+import { useStore } from "@/lib/store";
 
 const MAX_NAME_LENGTH = 20;
 
+interface FormValues {
+  user_name: string;
+}
+
 export default function UserName() {
   const router = useRouter();
-  const [value, setValue] = useLocalStorage({
-    key: "user_name",
-    defaultValue: "",
-  });
-  const form = useForm({
+  const username = useStore((state) => state.username);
+  const setUsername = useStore((state) => state.setUsername);
+  const form = useForm<FormValues>({
     initialValues: {
-      user_name: value,
+      user_name: username,
     },
     validate: {
       user_name: (value) => {
@@ -46,11 +48,11 @@ export default function UserName() {
     async (callback: () => void) => {
       const result = await form.validate();
       if (!result.hasErrors) {
-        setValue(form.values.user_name);
+        setUsername(form.values.user_name);
         callback();
       }
     },
-    [form, setValue]
+    [form, setUsername]
   );
   return (
     <>

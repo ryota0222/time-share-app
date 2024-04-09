@@ -1,15 +1,14 @@
-import { Box, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Stack, Text, TextInput, Title } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 import { APP_NAME } from "@/constants/meta";
-import { useForm } from "@mantine/form";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
-import { useCallback, useEffect } from "react";
-import { useLocalStorage } from "@mantine/hooks";
-import { useRouter } from "next/router";
+import { useUsernameRoute } from "@/hooks/useUsernameRoute";
 import { useStore } from "@/lib/store";
-import { notifications } from "@mantine/notifications";
 
 const MAX_NAME_LENGTH = 25;
 
@@ -17,13 +16,10 @@ export default function CreateSpace() {
   const router = useRouter();
   const space = useStore((state) => state.space);
   const setSpace = useStore((state) => state.setSpace);
-  const [value] = useLocalStorage({
-    key: "user_name",
-    defaultValue: "",
-  });
+  const username = useStore((state) => state.username);
   const form = useForm({
     initialValues: {
-      space_name: value.length ? `${value}のスペース` : "",
+      space_name: username.length ? `${username}のスペース` : "",
     },
     validate: {
       space_name: (value) => {
@@ -51,12 +47,7 @@ export default function CreateSpace() {
     },
     [form]
   );
-  useEffect(() => {
-    console.log(value);
-    if (value.length) {
-      form.setFieldValue("space_name", `${value}のスペース`);
-    }
-  }, [value]);
+  useUsernameRoute();
   return (
     <>
       <Head>

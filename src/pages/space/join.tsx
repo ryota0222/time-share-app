@@ -1,12 +1,13 @@
 import { Stack, Text, TextInput, Title } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 import { APP_NAME } from "@/constants/meta";
-import { useForm } from "@mantine/form";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
-import { useCallback } from "react";
-import { useRouter } from "next/router";
+import { useUsernameRoute } from "@/hooks/useUsernameRoute";
 
 const MAX_NAME_LENGTH = 25;
 
@@ -42,6 +43,7 @@ export default function JoinSpace() {
     },
     [form]
   );
+  useUsernameRoute();
   return (
     <>
       <Head>
