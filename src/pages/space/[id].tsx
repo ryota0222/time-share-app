@@ -1,8 +1,5 @@
 import { Box, Stack, Center, Loader } from "@mantine/core";
-import Head from "next/head";
-import { useMemo } from "react";
 
-import { APP_NAME } from "@/constants/meta";
 import { useBeforeUnloadEffect } from "@/feature/Space/hooks/useBeforeUnloadEffect";
 import { useEventsWatcher } from "@/feature/Space/hooks/useEventsWatcher";
 import { InformationPanel } from "@/feature/Space/InfomationPanel";
@@ -25,32 +22,27 @@ export default function SpaceDetail() {
   // ページを閉じる時にスペースを削除する
   useBeforeUnloadEffect(username, space);
   return (
-    <>
-      <Head>
-        <title>{APP_NAME}</title>
-      </Head>
-      <Stack
-        w="100%"
-        maw={640}
-        mx="auto"
-        align="center"
-        h="100%"
-        py={isMinimumScreen ? 40 : 64}
-        gap={40}
-      >
-        <SpaceNameArea space={space} />
-        <InformationPanel space={space} />
-        {space ? (
-          <Box my={40}>
-            <TimerDisplay events={events} />
-          </Box>
-        ) : (
-          <Center py="20vh">
-            <Loader />
-          </Center>
-        )}
-        <TimerController space={space} isStarting={isStarting} />
-      </Stack>
-    </>
+    <Stack
+      w="100%"
+      maw={640}
+      mx="auto"
+      align="center"
+      h="100%"
+      py={isMinimumScreen ? 40 : 64}
+      gap={40}
+    >
+      <SpaceNameArea space={space} />
+      <InformationPanel space={space} />
+      {space ? (
+        <Box my={40}>
+          <TimerDisplay events={events} />
+        </Box>
+      ) : (
+        <Center py="20vh">
+          <Loader />
+        </Center>
+      )}
+      <TimerController space={space} isStarting={isStarting} />
+    </Stack>
   );
 }

@@ -7,6 +7,7 @@ import { Container, createTheme, MantineProvider, Stack } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import Head from "next/head";
 
+import { APP_NAME } from "@/constants/meta";
 import { Footer } from "@/feature/Footer";
 import { Header } from "@/feature/Header";
 import { ReviewModalProvider } from "@/feature/ReviewModal/components";
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <MantineProvider theme={theme}>
       <Notifications />
       <Head>
+        <title>{APP_NAME}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <ReviewModalProvider>

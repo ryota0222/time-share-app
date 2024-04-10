@@ -1,11 +1,9 @@
 import { Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import Avatar from "boring-avatars";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
-import { APP_NAME } from "@/constants/meta";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
 import { useStore } from "@/lib/store";
@@ -56,9 +54,6 @@ export default function UserName() {
   );
   return (
     <>
-      <Head>
-        <title>{APP_NAME}</title>
-      </Head>
       <Spacer />
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
         <Avatar

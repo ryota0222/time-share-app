@@ -13,6 +13,13 @@ export default function Document() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:locale" content="ja_JP" />
         <meta property="og:site_name" content={APP_NAME} />
+        <meta property="og:title" content={APP_NAME} />
+        <meta property="og:description" content={APP_DESCRIPTION} />
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_APP_URL}/ogp.png`}
+        />
+        <meta property="og:type" content="website" />
         <link
           rel="icon alternate"
           type="image/png"

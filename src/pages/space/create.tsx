@@ -1,11 +1,9 @@
 import { Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import { APP_NAME } from "@/constants/meta";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
 import { showErrorNotification } from "@/feature/Notification";
@@ -65,9 +63,6 @@ export default function CreateSpace() {
   useUsernameRoute();
   return (
     <>
-      <Head>
-        <title>{APP_NAME}</title>
-      </Head>
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
         <Title fz="h2" my={64}>
           一時スペースの作成
