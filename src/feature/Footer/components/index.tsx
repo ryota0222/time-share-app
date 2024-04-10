@@ -1,4 +1,4 @@
-import { Container, Flex, Text } from "@mantine/core";
+import { Container, Flex, Text, useMantineTheme } from "@mantine/core";
 import Link from "next/link";
 import { memo } from "react";
 
@@ -6,6 +6,7 @@ import { useScreen } from "@/hooks/useScreen";
 
 export const Footer = memo(() => {
   const { isMinimumScreen } = useScreen();
+  const theme = useMantineTheme();
   return (
     <Flex component="footer" py="md">
       <Container fluid w="100%">
@@ -29,7 +30,10 @@ export const Footer = memo(() => {
               <Text
                 c="gray.6"
                 fz="sm"
-                style={{ letterSpacing: isMinimumScreen ? undefined : "4px" }}
+                style={{
+                  letterSpacing: isMinimumScreen ? undefined : "4px",
+                  textDecorationColor: theme.colors.gray[6],
+                }}
               >
                 portfolio
               </Text>
@@ -37,7 +41,10 @@ export const Footer = memo(() => {
             <Text
               c="gray.6"
               fz="sm"
-              style={{ letterSpacing: isMinimumScreen ? undefined : "4px" }}
+              style={{
+                letterSpacing: isMinimumScreen ? undefined : "4px",
+                textDecoration: "none",
+              }}
             >
               ・
             </Text>
@@ -45,7 +52,10 @@ export const Footer = memo(() => {
               <Text
                 c="gray.6"
                 fz="sm"
-                style={{ letterSpacing: isMinimumScreen ? undefined : "4px" }}
+                style={{
+                  letterSpacing: isMinimumScreen ? undefined : "4px",
+                  textDecorationColor: theme.colors.gray[6],
+                }}
               >
                 X
               </Text>
