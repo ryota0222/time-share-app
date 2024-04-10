@@ -64,9 +64,12 @@ export default function JoinSpace() {
   return (
     <>
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
-        <Title fz="h2" my={64}>
+        <Title fz="h2" mt={64} mb="xl">
           スペースに参加
         </Title>
+        <Text mb="xl">
+          スペースを作成した方にスペース名を教えてもらってください！
+        </Text>
         <TextInput
           w="100%"
           size="lg"

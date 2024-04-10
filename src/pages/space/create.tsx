@@ -64,9 +64,12 @@ export default function CreateSpace() {
   return (
     <>
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
-        <Title fz="h2" my={64}>
+        <Title fz="h2" mt={64} mb="xl">
           一時スペースの作成
         </Title>
+        <Text mb="xl">
+          スペース名は、計測を共有する相手に教える名前です。わかりやすい名前がおすすめです✨
+        </Text>
         <TextInput
           w="100%"
           size="lg"
