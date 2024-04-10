@@ -1,6 +1,7 @@
+import { notifications } from "@mantine/notifications";
+
 import { AlertIcon } from "@/core/icons/components/Alert";
 import { InfoIcon } from "@/core/icons/components/Info";
-import { notifications } from "@mantine/notifications";
 
 interface NotificationProps {
   title: string;
@@ -25,6 +26,7 @@ export const showErrorNotification = (props: NotificationProps) => {
     autoClose: 5000,
     radius: "lg",
     withBorder: true,
+    color: "white",
     icon: <AlertIcon width={20} height={20} color="#FA5252" />,
   });
 };

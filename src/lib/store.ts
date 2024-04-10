@@ -1,7 +1,13 @@
 import { create } from "zustand";
 
 export interface Event {
-  type: "start" | "stop" | "pause" | "resume" | "reset";
+  type:
+    | "start"
+    | "stop"
+    | "reset"
+    | "user_leave"
+    | "user_join"
+    | "space_delete";
   createdAt: string;
   user: string;
 }
@@ -22,7 +28,7 @@ type State = {
 };
 
 type Action = {
-  setSpace: (obj: Space) => void;
+  setSpace: (obj: Space | null) => void;
   setUsername: (name: string) => void;
 };
 

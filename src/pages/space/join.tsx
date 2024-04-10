@@ -1,18 +1,24 @@
 import { Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { APP_NAME } from "@/constants/meta";
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
+import { showErrorNotification } from "@/feature/Notification";
 import { useUsernameRoute } from "@/hooks/useUsernameRoute";
+import { useStore } from "@/lib/store";
 
 const MAX_NAME_LENGTH = 25;
 
 export default function JoinSpace() {
   const router = useRouter();
+  const [pending, setPending] = useState(false);
+  const setSpace = useStore((state) => state.setSpace);
+  const username = useStore((state) => state.username);
   const form = useForm({
     initialValues: {
       space_name: "",
@@ -29,11 +35,24 @@ export default function JoinSpace() {
       },
     },
   });
-  const joinSpace = useCallback(() => {
-    console.log("join space");
-    // todo
-    router.push(`/space/${form.values.space_name}`);
-  }, [router, form]);
+  const joinSpace = useCallback(async () => {
+    if (pending) return;
+    setPending(true);
+    const response = await axios.post("/api/space/join", {
+      space: form.values.space_name,
+      username,
+    });
+    if (response.status === 200) {
+      setSpace(response.data);
+      router.push(`/space/${form.values.space_name}`);
+    } else {
+      showErrorNotification({
+        title: "スペースへの参加に失敗しました",
+        message: response.data,
+      });
+    }
+    setPending(false);
+  }, [router, form, username, setSpace, pending]);
   const handleButtonClick = useCallback(
     async (callback: () => void) => {
       const result = await form.validate();
@@ -71,7 +90,12 @@ export default function JoinSpace() {
       </Stack>
       <Spacer />
       <Stack maw={320} w="100%" mx="auto" gap={24} mb={80}>
-        <AppButton onClick={() => handleButtonClick(joinSpace)}>次へ</AppButton>
+        <AppButton
+          loading={pending}
+          onClick={() => handleButtonClick(joinSpace)}
+        >
+          次へ
+        </AppButton>
       </Stack>
     </>
   );
