@@ -5,6 +5,7 @@ import "@mantine/notifications/styles.css";
 
 import { Container, createTheme, MantineProvider, Stack } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import Head from "next/head";
 
 import { Footer } from "@/feature/Footer";
 import { Header } from "@/feature/Header";
@@ -21,6 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <MantineProvider theme={theme}>
       <Notifications />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <ReviewModalProvider>
         <Stack gap={0} mih="100dvh">
           <Header />

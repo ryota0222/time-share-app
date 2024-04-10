@@ -1,2 +1,3 @@
 export const APP_NAME = "Time Share";
-export const APP_DESCRIPTION = "Time Share is a time tracking app.";
+export const APP_DESCRIPTION =
+  "Time Shareはスペース内のメンバー間でリアルタイムに時間を共有し、計測できるウェブアプリケーションです。このアプリは、プロジェクトのタスク、勉強会、運動セッションなど、さまざまな活動において、所属しているスペースのメンバー全員が同じ時間を共有し、計測することを可能にします。各ユーザーは別々のブラウザからアクセスし、スタート、ストップ、リセットなどの操作を行うことができ、これらの操作はリアルタイムで全メンバーと同期されます。";
