@@ -36,17 +36,27 @@ export default function JoinSpace() {
   const joinSpace = useCallback(async () => {
     if (pending) return;
     setPending(true);
-    const response = await axios.post("/api/space/join", {
-      space: form.values.space_name,
-      username,
-    });
-    if (response.status === 200) {
-      setSpace(response.data);
-      router.push(`/space/${form.values.space_name}`);
-    } else {
+    try {
+      const response = await axios.post("/api/space/join", {
+        space: form.values.space_name,
+        username,
+      });
+      if (response.status === 200) {
+        setSpace(response.data);
+        router.push(`/space/${form.values.space_name}`);
+      } else {
+        showErrorNotification({
+          title: "スペースへの参加に失敗しました",
+          message: response.data,
+        });
+      }
+    } catch (err) {
       showErrorNotification({
         title: "スペースへの参加に失敗しました",
-        message: response.data,
+        message:
+          err instanceof Error
+            ? err.message
+            : "作成済みのスペースか確認してください",
       });
     }
     setPending(false);
