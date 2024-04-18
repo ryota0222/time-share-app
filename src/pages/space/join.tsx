@@ -36,17 +36,27 @@ export default function JoinSpace() {
   const joinSpace = useCallback(async () => {
     if (pending) return;
     setPending(true);
-    const response = await axios.post("/api/space/join", {
-      space: form.values.space_name,
-      username,
-    });
-    if (response.status === 200) {
-      setSpace(response.data);
-      router.push(`/space/${form.values.space_name}`);
-    } else {
+    try {
+      const response = await axios.post("/api/space/join", {
+        space: form.values.space_name,
+        username,
+      });
+      if (response.status === 200) {
+        setSpace(response.data);
+        router.push(`/space/${form.values.space_name}`);
+      } else {
+        showErrorNotification({
+          title: "スペースへの参加に失敗しました",
+          message: response.data,
+        });
+      }
+    } catch (err) {
       showErrorNotification({
         title: "スペースへの参加に失敗しました",
-        message: response.data,
+        message:
+          err instanceof Error
+            ? err.message
+            : "作成済みのスペースか確認してください",
       });
     }
     setPending(false);
@@ -64,9 +74,12 @@ export default function JoinSpace() {
   return (
     <>
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
-        <Title fz="h2" my={64}>
+        <Title fz="h2" mt={64} mb="xl">
           スペースに参加
         </Title>
+        <Text mb="xl">
+          スペースを作成した方にスペース名を教えてもらってください！
+        </Text>
         <TextInput
           w="100%"
           size="lg"

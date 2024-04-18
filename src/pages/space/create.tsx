@@ -36,17 +36,27 @@ export default function CreateSpace() {
   const createSpace = useCallback(async () => {
     if (pending) return;
     setPending(true);
-    const response = await axios.post("/api/space/create", {
-      space: form.values.space_name,
-      username,
-    });
-    if (response.status === 200) {
-      setSpace(response.data);
-      router.push(`/space/${form.values.space_name}`);
-    } else {
+    try {
+      const response = await axios.post("/api/space/create", {
+        space: form.values.space_name,
+        username,
+      });
+      if (response.status === 200) {
+        setSpace(response.data);
+        router.push(`/space/${form.values.space_name}`);
+      } else {
+        showErrorNotification({
+          title: "スペースの作成に失敗しました",
+          message: response.data,
+        });
+      }
+    } catch (err) {
       showErrorNotification({
         title: "スペースの作成に失敗しました",
-        message: response.data,
+        message:
+          err instanceof Error
+            ? err.message
+            : "しばらく時間を経ってから再度お試しください",
       });
     }
     setPending(false);
@@ -64,9 +74,12 @@ export default function CreateSpace() {
   return (
     <>
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
-        <Title fz="h2" my={64}>
+        <Title fz="h2" mt={64} mb="xl">
           一時スペースの作成
         </Title>
+        <Text mb="xl">
+          スペース名は、計測を共有する相手に教える名前です。わかりやすい名前がおすすめです✨
+        </Text>
         <TextInput
           w="100%"
           size="lg"

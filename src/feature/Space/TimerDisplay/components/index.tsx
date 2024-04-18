@@ -1,6 +1,7 @@
 import { Box, Text } from "@mantine/core";
 import { memo, useCallback, useEffect, useState } from "react";
 
+import { useScreen } from "@/hooks/useScreen";
 import { Event } from "@/lib/store";
 import { dsegFont } from "@/styles/font";
 
@@ -11,6 +12,8 @@ interface Props {
 export const TimerDisplay = memo<Props>(({ events }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+
+  const { isMinimumScreen } = useScreen();
 
   useEffect(() => {
     calculateElapsedTime();
@@ -74,12 +77,16 @@ export const TimerDisplay = memo<Props>(({ events }) => {
 
   return (
     <Box pos="relative">
-      <Text className={dsegFont.className} fz={64} c="#00000016">
+      <Text
+        className={dsegFont.className}
+        fz={isMinimumScreen ? 48 : 64}
+        c="#00000016"
+      >
         {"88 : 88 : 88".slice(0, formatTime().length)}
       </Text>
       <Text
         className={dsegFont.className}
-        fz={64}
+        fz={isMinimumScreen ? 48 : 64}
         c="#000000"
         pos="absolute"
         top={0}

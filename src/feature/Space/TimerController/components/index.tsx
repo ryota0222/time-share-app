@@ -154,7 +154,9 @@ export const TimerController = memo<Props>(({ space, isStarting }) => {
         </Title>
         <Box mx="lg">
           <Text c="gray.6" ta="center" fz="md">
-            スペースを離れると、スペースは消去され、参加中のユーザーもスペースから外れます。
+            {space?.owner === username
+              ? "スペースを離れると、スペースは消去され、参加中のユーザーもスペースから外れます。"
+              : "あなたがスペースを離れると、スペースに参加中のユーザーにお知らせします。"}
           </Text>
           <Stack
             w="min(320px, 80%)"

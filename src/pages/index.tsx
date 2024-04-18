@@ -12,7 +12,7 @@ export default function Top() {
         <Title>{APP_NAME}</Title>
       </Flex>
       <Text fw="bold" ta="center" my={24} style={{ letterSpacing: "6px" }}>
-        リアルタイムに計測を行いましょう
+        勉強会のタイムキープに。メンバー全員で同じ時間を共有しましょう。
       </Text>
       <Image
         src="/mv.png"

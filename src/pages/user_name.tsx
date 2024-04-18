@@ -56,6 +56,9 @@ export default function UserName() {
     <>
       <Spacer />
       <Stack w="100%" maw={400} mx="auto" align="center" h="100%">
+        <Text fz="sm" fw="bold" mb="sm">
+          \ 名前によってアイコンが決まるよ！ /
+        </Text>
         <Avatar
           size={120}
           name={form.values.user_name}
