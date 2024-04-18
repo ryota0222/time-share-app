@@ -10,6 +10,7 @@ import Head from "next/head";
 import { APP_NAME } from "@/constants/meta";
 import { Footer } from "@/feature/Footer";
 import { Header } from "@/feature/Header";
+import { PromotionInstallPwaBanner } from "@/feature/Promotion/InstallPwa/components";
 import { ReviewModalProvider } from "@/feature/ReviewModal/components";
 import { notoSansJP } from "@/styles/font";
 
@@ -29,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ReviewModalProvider>
         <Stack gap={0} mih="100dvh">
+          <PromotionInstallPwaBanner />
           <Header />
           <Container
             component="main"
