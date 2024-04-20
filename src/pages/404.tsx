@@ -4,8 +4,10 @@ import React from "react";
 
 import { Spacer } from "@/core/Spacer";
 import { AppButton } from "@/feature/AppButton";
+import { useScreen } from "@/hooks/useScreen";
 
 const Custom404 = (): JSX.Element => {
+  const { isMinimumScreen } = useScreen();
   return (
     <>
       <Head>
@@ -13,10 +15,23 @@ const Custom404 = (): JSX.Element => {
       </Head>
       <Stack w="100%" pt="md" flex={1} style={{ gap: 0 }}>
         <Title order={2} ta="center">
-          <Text span inline fw="bold" fz="h2" c="#E57C89">
+          <Text
+            span
+            inline
+            fw="bold"
+            fz={isMinimumScreen ? "h3" : "h2"}
+            c="#E57C89"
+          >
             404
           </Text>
-          <Text span inline fw="bold" ml="md" fz="h2" c="#37464A">
+          <Text
+            span
+            inline
+            fw="bold"
+            ml="md"
+            fz={isMinimumScreen ? "h3" : "h2"}
+            c="#37464A"
+          >
             ページが見つかりませんでした
           </Text>
         </Title>
