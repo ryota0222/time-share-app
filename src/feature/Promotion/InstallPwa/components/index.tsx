@@ -1,14 +1,11 @@
-import { Spacer } from "@/core/Spacer";
-import { ChevronBackIcon } from "@/core/icons/components/ChevronBack";
-import { ChevronForwardIcon } from "@/core/icons/components/ChevronForward";
 import {
   ActionIcon,
   Box,
   Button,
-  ButtonGroup,
   Center,
   CloseIcon,
   Flex,
+  Image,
   Overlay,
   Stack,
   Text,
@@ -18,6 +15,12 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+
+import { ChevronBackIcon } from "@/core/icons/components/ChevronBack";
+import { ChevronForwardIcon } from "@/core/icons/components/ChevronForward";
+import { Spacer } from "@/core/Spacer";
+
+import classNames from "../styles/style.module.css";
 
 export const isBrowser = typeof window !== "undefined";
 
@@ -120,6 +123,8 @@ export const PromotionInstallPwaBanner = memo(() => {
       console.log(`User response to the install prompt: ${outcome}`);
       // We've used the prompt, and can't use it again, throw it away
       deferredPrompt = null;
+    } else {
+      open();
     }
   }, [deferredPrompt]);
   return (
@@ -161,7 +166,7 @@ export const PromotionInstallPwaBanner = memo(() => {
         </ActionIcon>
       </Flex>
       <Transition
-        mounted={true}
+        mounted={opened}
         transition="fade"
         duration={400}
         timingFunction="ease"
@@ -180,15 +185,15 @@ export const PromotionInstallPwaBanner = memo(() => {
             <Stack
               align="center"
               justify="center"
-              onClick={close}
               pos="fixed"
               h="100dvh"
               pt="xl"
+              w="100%"
               bottom={0}
               left={0}
               style={{ ...styles, zIndex: 1000 }}
             >
-              <UnstyledButton>
+              <UnstyledButton onClick={close}>
                 <Center
                   w={48}
                   h={48}
@@ -211,49 +216,101 @@ export const PromotionInstallPwaBanner = memo(() => {
                 </Text>
               </UnstyledButton>
               <Spacer />
-              <Stack
-                bg="#1E1E1E80"
-                w="90vw"
-                p="md"
-                align="center"
-                style={{
-                  borderRadius: theme.radius.md,
-                }}
-              >
-                {/*  */}
-              </Stack>
-              <Flex justify="space-between" w="100%" px="md">
-                {step > 1 ? (
-                  <Button
-                    size="compact-sm"
-                    leftSection={<ChevronBackIcon />}
-                    variant="transparent"
-                    color="black"
-                    onClick={() => setStep(step - 1)}
-                  >
-                    前へ
-                  </Button>
-                ) : (
-                  <Box component="span" />
-                )}
-                {step < 3 ? (
-                  <Button
-                    size="compact-sm"
-                    rightSection={<ChevronForwardIcon />}
-                    variant="transparent"
-                    color="black"
-                    onClick={() => setStep(step + 1)}
-                  >
-                    次へ
-                  </Button>
-                ) : (
-                  <Box component="span" />
-                )}
-              </Flex>
-              <Text fz="xl" c="gray.6">
-                このページをホーム画面に追加して、アプリのように使えるようにしませんか？
-              </Text>
+              <Box mb={60}>
+                <Stack
+                  bg="rgb(30 30 30 / 80%)"
+                  w="90vw"
+                  p="md"
+                  align="center"
+                  className={classNames.wrapper}
+                >
+                  <Flex align="center" gap="md">
+                    <Center
+                      w={40}
+                      h={40}
+                      bg="white"
+                      style={{ borderRadius: theme.radius.xl }}
+                    >
+                      <Text fw="bold" fz="lg">
+                        {step}
+                      </Text>
+                    </Center>
+                    <Text fw="bold" c="white">
+                      {step === 1 && <>共有アイコンをタップ</>}
+                      {step === 2 && <>「ホーム画面に追加」をタップ</>}
+                      {step === 3 && <>「追加」をタップ</>}
+                    </Text>
+                  </Flex>
+                  <Image
+                    src="/instruction/step1.png"
+                    alt="ステップ１の画像"
+                    display={step === 1 ? "block" : "none"}
+                  />
+                  <Image
+                    src="/instruction/step2.png"
+                    alt="ステップ2の画像"
+                    display={step === 2 ? "block" : "none"}
+                  />
+                  <Image
+                    src="/instruction/step3.png"
+                    alt="ステップ3の画像"
+                    display={step === 3 ? "block" : "none"}
+                  />
+                  {/*  */}
+                </Stack>
+                <Flex justify="space-between" w="100%" px="md" mt="md">
+                  {step > 1 ? (
+                    <Button
+                      size="compact-sm"
+                      leftSection={<ChevronBackIcon />}
+                      variant="transparent"
+                      color="black"
+                      onClick={() => setStep(step - 1)}
+                    >
+                      前へ
+                    </Button>
+                  ) : (
+                    <Box component="span" />
+                  )}
+                  {step < 3 ? (
+                    <Button
+                      size="compact-sm"
+                      rightSection={<ChevronForwardIcon />}
+                      variant="transparent"
+                      color="black"
+                      onClick={() => setStep(step + 1)}
+                    >
+                      次へ
+                    </Button>
+                  ) : (
+                    <Button
+                      size="compact-sm"
+                      variant="transparent"
+                      color="black"
+                      onClick={() => {
+                        setStep(1);
+                        close();
+                      }}
+                    >
+                      終了
+                    </Button>
+                  )}
+                </Flex>
+              </Box>
             </Stack>
+            <Box
+              w={16}
+              h={16}
+              style={{
+                borderRadius: 8,
+                zIndex: 1000,
+                transform: "translateX(-8px) translateY(8px)",
+              }}
+              bg="#1E1E1E80"
+              pos="fixed"
+              left="50%"
+              bottom={0}
+            />
           </>
         )}
       </Transition>

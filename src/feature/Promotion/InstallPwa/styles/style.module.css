@@ -1,0 +1,16 @@
+.wrapper {
+  border-radius: var(--mantine-radius-md);
+  position: relative;
+}
+
+.wrapper::after {
+  border-radius: var(--mantine-radius-md);
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 100px;
+  background-color: #1e1e1e80;
+  transform: translateX(-1px);
+}
