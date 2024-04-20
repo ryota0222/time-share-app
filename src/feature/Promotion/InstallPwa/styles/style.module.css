@@ -11,6 +11,6 @@
   left: 50%;
   width: 2px;
   height: 100px;
-  background-color: #1e1e1e80;
+  background-color: rgb(30 30 30 / 80%);
   transform: translateX(-1px);
 }

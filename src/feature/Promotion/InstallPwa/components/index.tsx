@@ -55,8 +55,7 @@ export const PromotionInstallPwaBanner = memo(() => {
     version: string;
   }> | null>(null);
   const [installed, setInstalled] = useState(false);
-  const [isOff, setIsOff] = useState(false);
-  const [isSupported, setIsSupported] = useState(false);
+  const [show, setShow] = useState(false);
   const [opened, { open, close }] = useDisclosure();
   const [step, setStep] = useState(1);
   const theme = useMantineTheme();
@@ -66,16 +65,14 @@ export const PromotionInstallPwaBanner = memo(() => {
    * - アプリをインストールしていない
    * - すでにインストールの処理を行っていない
    * - バナーの非表示フラグが立っていない
-   * - PWAのインストール機能にブラウザが対応している
    */
   const isDisplay = useMemo(
     () =>
       getPWADisplayMode() === "browser" &&
       listOfInstalledApps?.length === 0 &&
       !installed &&
-      !isOff &&
-      isSupported,
-    [listOfInstalledApps, installed, isOff, isSupported]
+      !show,
+    [listOfInstalledApps, installed, show]
   );
   useEffect(() => {
     void (async (): Promise<void> => {
@@ -91,10 +88,7 @@ export const PromotionInstallPwaBanner = memo(() => {
               e.preventDefault();
               console.log("called");
               // Stash the event so it can be triggered later.
-              deferredPrompt = e;
               // Optionally, send analytics event that PWA install promo was shown.
-              console.log(`'beforeinstallprompt' event was fired.`);
-              setIsSupported(true);
             });
             // - appinstalledイベント
             window.addEventListener("appinstalled", () => {
@@ -160,7 +154,7 @@ export const PromotionInstallPwaBanner = memo(() => {
           tabIndex={isDisplay ? 0 : -1}
           color="white"
           radius="xl"
-          onClick={() => setIsOff(true)}
+          onClick={() => setShow(true)}
         >
           <CloseIcon width={12} height={12} />
         </ActionIcon>
@@ -219,7 +213,7 @@ export const PromotionInstallPwaBanner = memo(() => {
               <Box mb={60}>
                 <Stack
                   bg="rgb(30 30 30 / 80%)"
-                  w="90vw"
+                  w="80vw"
                   p="md"
                   align="center"
                   className={classNames.wrapper}
@@ -256,7 +250,6 @@ export const PromotionInstallPwaBanner = memo(() => {
                     alt="ステップ3の画像"
                     display={step === 3 ? "block" : "none"}
                   />
-                  {/*  */}
                 </Stack>
                 <Flex justify="space-between" w="100%" px="md" mt="md">
                   {step > 1 ? (
@@ -306,7 +299,7 @@ export const PromotionInstallPwaBanner = memo(() => {
                 zIndex: 1000,
                 transform: "translateX(-8px) translateY(8px)",
               }}
-              bg="#1E1E1E80"
+              bg="rgb(30 30 30 / 80%)"
               pos="fixed"
               left="50%"
               bottom={0}
