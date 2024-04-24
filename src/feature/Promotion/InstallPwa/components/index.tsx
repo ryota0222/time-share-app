@@ -86,7 +86,7 @@ export const PromotionInstallPwaBanner = memo(() => {
             window.addEventListener("beforeinstallprompt", (e) => {
               // Prevent the mini-infobar from appearing on mobile
               e.preventDefault();
-              console.log("called");
+              deferredPrompt = e;
               // Stash the event so it can be triggered later.
               // Optionally, send analytics event that PWA install promo was shown.
             });
