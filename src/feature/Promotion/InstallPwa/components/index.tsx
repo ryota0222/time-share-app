@@ -1,28 +1,32 @@
 import {
   ActionIcon,
-  Box,
   Button,
-  Center,
   CloseIcon,
   Flex,
-  Image,
   Overlay,
   Stack,
   Text,
   Transition,
-  UnstyledButton,
-  useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 
-import { ChevronBackIcon } from "@/core/icons/components/ChevronBack";
-import { ChevronForwardIcon } from "@/core/icons/components/ChevronForward";
-import { Spacer } from "@/core/Spacer";
-
-import classNames from "../styles/style.module.css";
+import { ChromeInstruction } from "./ChromeInstruction";
+import { SafariInstruction } from "./SafariInstruction";
 
 export const isBrowser = typeof window !== "undefined";
+
+const isIOSChromeBrowser = () => {
+  const ua = window.navigator.userAgent.toLowerCase();
+  // iOSデバイスかどうかのチェック
+  if (ua.indexOf("iphone") !== -1 || ua.indexOf("ipad") !== -1) {
+    // Safariかどうかのチェック
+    if (ua.indexOf("chrome") !== -1 || ua.indexOf("crios") !== -1) {
+      return true;
+    }
+  }
+  return false;
+};
 
 /**
  * PWAの表示モードの取得
@@ -57,8 +61,6 @@ export const PromotionInstallPwaBanner = memo(() => {
   const [installed, setInstalled] = useState(false);
   const [show, setShow] = useState(false);
   const [opened, { open, close }] = useDisclosure();
-  const [step, setStep] = useState(1);
-  const theme = useMantineTheme();
   /**
    * 以下の条件でバナーを表示
    * - このページをブラウザで表示している
@@ -181,129 +183,19 @@ export const PromotionInstallPwaBanner = memo(() => {
               justify="center"
               pos="fixed"
               h="100dvh"
-              pt="xl"
+              pt={isIOSChromeBrowser() ? 80 : "xl"}
               w="100%"
               bottom={0}
               left={0}
               style={{ ...styles, zIndex: 1000 }}
+              onClick={close}
             >
-              <UnstyledButton onClick={close}>
-                <Center
-                  w={48}
-                  h={48}
-                  p="xs"
-                  style={{
-                    border: `solid 1px ${theme.colors.gray[8]}`,
-                    borderRadius: theme.radius.xl,
-                  }}
-                >
-                  <CloseIcon width={32} height={32} />
-                </Center>
-                <Text
-                  fz="xs"
-                  fw="bold"
-                  style={{ letterSpacing: 2 }}
-                  ta="center"
-                  mt={6}
-                >
-                  閉じる
-                </Text>
-              </UnstyledButton>
-              <Spacer />
-              <Box mb={60}>
-                <Stack
-                  bg="rgb(30 30 30 / 80%)"
-                  w="80vw"
-                  p="md"
-                  align="center"
-                  className={classNames.wrapper}
-                >
-                  <Flex align="center" gap="md">
-                    <Center
-                      w={40}
-                      h={40}
-                      bg="white"
-                      style={{ borderRadius: theme.radius.xl }}
-                    >
-                      <Text fw="bold" fz="lg">
-                        {step}
-                      </Text>
-                    </Center>
-                    <Text fw="bold" c="white">
-                      {step === 1 && <>共有アイコンをタップ</>}
-                      {step === 2 && <>「ホーム画面に追加」をタップ</>}
-                      {step === 3 && <>「追加」をタップ</>}
-                    </Text>
-                  </Flex>
-                  <Image
-                    src="/instruction/step1.png"
-                    alt="ステップ１の画像"
-                    display={step === 1 ? "block" : "none"}
-                  />
-                  <Image
-                    src="/instruction/step2.png"
-                    alt="ステップ2の画像"
-                    display={step === 2 ? "block" : "none"}
-                  />
-                  <Image
-                    src="/instruction/step3.png"
-                    alt="ステップ3の画像"
-                    display={step === 3 ? "block" : "none"}
-                  />
-                </Stack>
-                <Flex justify="space-between" w="100%" px="md" mt="md">
-                  {step > 1 ? (
-                    <Button
-                      size="compact-sm"
-                      leftSection={<ChevronBackIcon />}
-                      variant="transparent"
-                      color="black"
-                      onClick={() => setStep(step - 1)}
-                    >
-                      前へ
-                    </Button>
-                  ) : (
-                    <Box component="span" />
-                  )}
-                  {step < 3 ? (
-                    <Button
-                      size="compact-sm"
-                      rightSection={<ChevronForwardIcon />}
-                      variant="transparent"
-                      color="black"
-                      onClick={() => setStep(step + 1)}
-                    >
-                      次へ
-                    </Button>
-                  ) : (
-                    <Button
-                      size="compact-sm"
-                      variant="transparent"
-                      color="black"
-                      onClick={() => {
-                        setStep(1);
-                        close();
-                      }}
-                    >
-                      終了
-                    </Button>
-                  )}
-                </Flex>
-              </Box>
+              {isIOSChromeBrowser() ? (
+                <ChromeInstruction close={close} />
+              ) : (
+                <SafariInstruction close={close} />
+              )}
             </Stack>
-            <Box
-              w={16}
-              h={16}
-              style={{
-                borderRadius: 8,
-                zIndex: 1000,
-                transform: "translateX(-8px) translateY(8px)",
-              }}
-              bg="rgb(30 30 30 / 80%)"
-              pos="fixed"
-              left="50%"
-              bottom={0}
-            />
           </>
         )}
       </Transition>
