@@ -14,3 +14,20 @@
   background-color: rgb(30 30 30 / 80%);
   transform: translateX(-1px);
 }
+
+.chromeWrapper {
+  border-radius: var(--mantine-radius-md);
+  position: relative;
+}
+
+.chromeWrapper::after {
+  border-radius: var(--mantine-radius-md);
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 2px;
+  height: 100px;
+  background-color: rgb(30 30 30 / 80%);
+  transform: translateX(-1px);
+}
